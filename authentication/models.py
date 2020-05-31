@@ -7,6 +7,13 @@ from django.db.models import Avg
 from passporteye import read_mrz
 # Create your models here.
 
+
+ORDER_STATUS = (
+	(1, "In review"),
+	(2, "Accepted"),
+	(3, "Rejected")
+)
+
 class CustomUser(AbstractUser):
 	user_phone = models.CharField(blank=True, max_length=35)
 	user_address = models.CharField(blank=True, max_length=120)
@@ -40,12 +47,14 @@ class ProductTopping(models.Model):
 	topping_description = models.TextField('Описание Посыпки', max_length=120)
 
 class Order(models.Model):
-	user_id = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
+	user = models.ForeignKey(CustomUser, related_name='customer_order', on_delete = models.CASCADE)
+	baker = models.ForeignKey(CustomUser, related_name='baker_order', on_delete=models.CASCADE)
 	order_total = models.IntegerField('Сумма заказа', default=0)
 	order_address = models.CharField('Адрес заказа', max_length=120)
 	order_date = models.DateField('Дата заказа')
 	order_confirm = models.BooleanField(default=False)
 	order_detail_text = models.TextField('Текст заказа', max_length=120)
+	status = models.IntegerField(verbose_name="Статус", choices=ORDER_STATUS, default=1)
 
 class Catalog(models.Model):
 	catalog_name = models.CharField('Имя продукта', max_length=35)
@@ -57,6 +66,7 @@ class Catalog(models.Model):
 	catalog_date = models.DateField()
 	catalog_expiredate = models.DateField()
 	catalog_type = models.CharField('Тип продукта', max_length=35)
+	baker = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
 	# form = models.ForeignKey(ProductForm, on_delete = models.CASCADE)
 	catalog_form = models.ForeignKey(ProductForm, on_delete = models.CASCADE, null=True, blank=True)
 	catalog_stuff = models.ForeignKey(ProductStuff, on_delete = models.CASCADE, null=True, blank=True)
@@ -75,7 +85,7 @@ class Product(models.Model):
 	producttopping = models.ForeignKey(ProductTopping, on_delete = models.CASCADE, null=True, blank=True)
 	product_detailtext = models.CharField('Надпись', max_length=350)
 	product_calory = models.IntegerField('Калории Продукта', default=0)
-	order_id = models.ForeignKey(Order, on_delete = models.CASCADE)
+	order = models.ForeignKey(Order, on_delete = models.CASCADE)
 	product_cost = models.IntegerField('Стоимость продукта', default=0)
 	product_catalog_id = models.ForeignKey(Catalog,blank=True, null=True, on_delete=models.SET_NULL)
 

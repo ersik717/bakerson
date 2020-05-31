@@ -188,11 +188,29 @@ class OrderDetailSerializer(serializers.ModelSerializer):
         model = Order
         fields = '__all__'
 
+
+class OrderCreateSerializer(serializers.ModelSerializer):
+	user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+	class Meta:
+		model = Order
+		fields = '__all__'
+
+
 class CatalogListSerializer(serializers.ModelSerializer):
-	
+	baker = CustomUserSerializer()
+
 	class Meta:
 		model = Catalog
 		fields = '__all__' 
+
+class CatalogCreateSerializer(serializers.ModelSerializer):
+	baker = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+	class Meta:
+		model = Catalog
+		fields = '__all__'
+		
+
 
 class CatalogDetailSerializer(serializers.ModelSerializer):
 

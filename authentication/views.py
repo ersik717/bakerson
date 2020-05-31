@@ -7,7 +7,32 @@ from authentication.models import CustomUser, Customer, Product, ProductForm, Pr
 from django.shortcuts import render
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.views.generic.base import View
-from .serializers import MyTokenObtainPairSerializer, CustomUserSerializer, UserListSerializer, ProductListSerializer, ProductDetailSerializer, ProductFormListSerializer, ProductFormDetailSerializer, ProductStuffListSerializer, ProductStuffDetailSerializer, ProductToppingListSerializer, ProductToppingDetailSerializer, CustomerListSerializer, CustomerDetailSerializer, OrderListSerializer, OrderDetailSerializer, CatalogListSerializer, CatalogDetailSerializer, ReviewListSerializer, ReviewDetailSerializer, ImageModelSerializer, BakerCreateSerializer, BakerListSerializer #, BakerDetailSerializer  
+from .serializers import (
+MyTokenObtainPairSerializer, 
+CustomUserSerializer, 
+UserListSerializer, 
+ProductListSerializer, 
+ProductDetailSerializer, 
+ProductFormListSerializer, 
+ProductFormDetailSerializer,
+ProductStuffListSerializer, 
+ProductStuffDetailSerializer, 
+ProductToppingListSerializer, 
+ProductToppingDetailSerializer, 
+CustomerListSerializer, 
+CustomerDetailSerializer, 
+OrderListSerializer, 
+OrderDetailSerializer, 
+CatalogListSerializer, 
+CatalogDetailSerializer, 
+ReviewListSerializer, 
+ReviewDetailSerializer, 
+ImageModelSerializer, 
+BakerCreateSerializer, 
+BakerListSerializer,
+CatalogCreateSerializer,
+OrderCreateSerializer )
+#, BakerDetailSerializer  
 from .permission import IsOwnerOrReadOnly, IsSameUserAllowEditionOrReadOnly
 from django.db.models import Count
 from django.views.generic import TemplateView
@@ -160,22 +185,42 @@ class ProductToppingCreateView(generics.CreateAPIView):
 
 class OrderListView(generics.ListAPIView):
     serializer_class = OrderListSerializer
-    queryset = Order.objects.all()
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.IsAuthenticated,)
+    
+    def get_queryset(self):
+        user = self.request.user
+        return Order.objects.filter(baker=user)
 
 class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrderDetailSerializer
     queryset = Order.objects.all()
-    #permission_classes = (IsAuthenticated)
+    permission_classes = (permissions.IsAuthenticated, )
+
+class OrderProductsView(generics.ListAPIView):
+    serializer_class = ProductListSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get_queryset(self):
+        order_id = self.kwargs.get('pk')
+        return Product.objects.filter(order=order_id)
 
 class OrderCreateView(generics.CreateAPIView):
-    serializer_class = OrderDetailSerializer
-    permission_classes = (permissions.AllowAny,)
+    serializer_class = OrderCreateSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 class CatalogListView(generics.ListAPIView):
     serializer_class = CatalogListSerializer
     queryset = Catalog.objects.all()
     permission_classes = (permissions.AllowAny,)
+
+class BakerCatalogListView(generics.ListAPIView):
+    serializer_class = CatalogListSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    
+    def get_queryset(self):
+        user = self.request.user
+        return Catalog.objects.filter(baker=user)
+
 
 class CatalogDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CatalogDetailSerializer
@@ -184,8 +229,8 @@ class CatalogDetailView(generics.RetrieveUpdateDestroyAPIView):
     #permission_classes = (IsAuthenticated)
 
 class CatalogCreateView(generics.CreateAPIView):
-    serializer_class = CatalogDetailSerializer
-    permission_classes = (permissions.AllowAny,)
+    serializer_class = CatalogCreateSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 class ReviewListView(generics.ListAPIView):
     serializer_class = ReviewListSerializer

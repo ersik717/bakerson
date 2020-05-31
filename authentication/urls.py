@@ -1,6 +1,42 @@
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
-from .views import ObtainTokenPairWithColorView, CustomUserCreate, LoginPage, UserListView, UserDetailView, CustomerListView, CustomerDetailView, CustomerCreateView, ProductListView,  ProductDetailView,  ProductCreateView, ProductFormListView,  ProductFormDetailView,  ProductFormCreateView, ProductStuffListView,  ProductStuffDetailView,  ProductStuffCreateView, ProductToppingListView,  ProductToppingDetailView,  ProductToppingCreateView, OrderListView, OrderDetailView, OrderCreateView, CatalogListView, CatalogDetailView, CatalogCreateView, ReviewListView, ReviewDetailView, ReviewCreateView, Test, ImageModelListView, ImageModelCreateView, BakerCreate, BakerListView, BakerDetailView
+from .views import (ObtainTokenPairWithColorView, 
+					CustomUserCreate, 
+					LoginPage, 
+					UserListView, 
+					UserDetailView, 
+					CustomerListView, 
+					CustomerDetailView, 
+					CustomerCreateView, 
+					ProductListView,  
+					ProductDetailView,  
+					ProductCreateView, 
+					ProductFormListView,  
+					ProductFormDetailView, 
+					ProductFormCreateView,
+					ProductStuffListView, 
+					ProductStuffDetailView, 
+					ProductStuffCreateView,
+					ProductToppingListView,
+					ProductToppingDetailView, 
+					ProductToppingCreateView, 
+					OrderListView,
+					OrderDetailView, 
+					OrderCreateView, 
+					CatalogListView, 
+					CatalogDetailView, 
+					CatalogCreateView, 
+					ReviewListView, 
+					ReviewDetailView,
+					ReviewCreateView,
+					Test, 
+					ImageModelListView,
+					ImageModelCreateView,
+					BakerCreate,
+					BakerListView,
+					BakerDetailView,
+					BakerCatalogListView,
+					OrderProductsView)
 
 urlpatterns = [
 	path('users/create/', CustomUserCreate.as_view(), name="create_user"),
@@ -38,9 +74,11 @@ urlpatterns = [
 
 	path('orders', OrderListView.as_view()),
 	path('orders/<int:pk>', OrderDetailView.as_view()),
+	path('orders/<int:pk>/products', OrderProductsView.as_view()),
 	path('orders/create', OrderCreateView.as_view()),
 
 	path('catalog', CatalogListView.as_view()),
+	path('baker-catalog', BakerCatalogListView.as_view()),
 	path('catalog/<int:pk>', CatalogDetailView.as_view()),
 	path('catalog/create', CatalogCreateView.as_view()),
 
