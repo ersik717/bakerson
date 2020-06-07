@@ -209,13 +209,33 @@ color: #FEC27F !important;
 			return {
 				login: '',
 				password: '',
+				users: '',
+				bakers: '',
 			}
 			
+		},
+		beforeCreate() {
+			$.ajax({ 
+	            url: "http://127.0.0.1:8000/api/users/",
+	              type: "GET",
+	              success: (response) => {
+	                this.users = response
+	                
+	              }
+	        });
+	        $.ajax({ 
+	            url: "http://127.0.0.1:8000/api/bakers",
+	              type: "GET",
+	              success: (response) => {
+	                this.bakers = response
+	                
+	              }
+	        });
 		},
 		methods: {
 			setLogin() {
 				$.ajax({
-					url: "http://89.219.32.10/api/token/obtain/",
+					url: "http://127.0.0.1:8000/api/token/obtain/",
 					type: "POST",
 					data: {
 						username: this.login,
@@ -224,8 +244,8 @@ color: #FEC27F !important;
 					success: (response) => {
 						sessionStorage.setItem("access", response.access)
 						sessionStorage.setItem("login", this.login)
-						//this.$router.push({name: "home"})
-						window.location = '/'
+						window.location = '/'						
+						
 					},
 					error: (response) => {
 						if (response.status === 401){
@@ -234,6 +254,9 @@ color: #FEC27F !important;
 					}
 				})
 			},	
+			trigger () {
+		        this.$refs.setLogin.click()
+		    }
 		},
 
 	}

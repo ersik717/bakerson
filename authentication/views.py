@@ -191,6 +191,11 @@ class OrderListView(generics.ListAPIView):
         user = self.request.user
         return Order.objects.filter(baker=user)
 
+class OrderUserListView(generics.ListAPIView):
+    serializer_class = OrderListSerializer
+    queryset = Order.objects.all()
+    permission_classes = (IsOwnerOrReadOnly,)
+
 class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrderDetailSerializer
     queryset = Order.objects.all()

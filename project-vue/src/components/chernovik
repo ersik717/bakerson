@@ -1,0 +1,37 @@
+<div class="card">
+      <div class="card-body">
+        <h3 class=text-center>Комментарии</h3>
+          <div class="card" style="background-color:lemonchiffon;">
+            <div v-for="catalog in catalogs" class="card-body">
+              <div v-for="item in pageOfItems" :key="item.id" v-if="catalog.id == c_id && catalog.id == item.catalog" class="row">
+                <div v-for="user in users" v-if="item.user == user.id" class="col-md-3">
+                  <h5 class="text-left">User: {{ user.username }}</h5>
+                  <h5>Given rate: {{ item.rating }}</h5>
+
+                </div>
+                <div class="col-md-9">
+
+                  <p> {{ item.comment }} </p>
+                    <!-- <input style="border: 0; background-color: white;" type="text" ref="comment" :value="item.comment" :disabled="!isEditing"
+                     :class="{view: !isEditing}">
+                     <button @click="isEditing = !isEditing" v-if="!isEditing">
+                      Edit
+                    </button>
+                    <button @click="save()" v-else-if="isEditing">
+                        Save
+                    </button>
+              
+                    <button v-if="isEditing" @click="isEditing = false">Cancel</button>                    
+                    <button class="btn btn-danger" @click="deleteComment(item.id)">Удалить</button> -->
+                  </div>
+                </div>
+              </div>
+                  <div class="card-footer pb-0 pt-3">
+                      <jw-pagination :items="reviews" @changePage="onChangePage"></jw-pagination>
+                  </div>
+
+            </div>
+            
+      </div>
+
+    </div>

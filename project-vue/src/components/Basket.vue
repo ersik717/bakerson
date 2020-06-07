@@ -6,24 +6,23 @@
 			<div id="customform">
 				<div class="container-fluid text-left" style="padding-left:0px; padding-top:56px; padding-bottom:140px;">
 					<h3 style="font-weight: bold; color:#222222; margin-bottom:42px; text-align: center;">Ваша корзина</h3>
-						<div v-for="product in products">
-							<div v-for="order in orders">
-								<div v-for="user in users">
-									<!-- <div v-for="catalog in catalogs"> -->
-										<div v-if="product.order_id == order.id && order.user_id == user.id && user.username == usern" style="color: #222222; background-color: #FFFFFF; height: 84px; margin-left: 56px; margin-right: 56px; padding-top: 14px; padding-bottom: 14px; border-radius: 28px; box-shadow: 0px 7px 35px #000000;">
-											<div class="row">
-												<span style="font-size:35px; margin-left: 42px;"> </span>
+					<!-- <h3 style="color:black;">{{ users }}</h3> -->
+						<div v-for="user in users" v-if="user.username == usern">
+							<div v-for="order in orders" v-if="user.username == order.user.username && order.order_confirm == false">
+								<div v-for="us in users" v-if="order.baker == us.id">
+									<div  v-for="product in products" v-if="order.id == product.order" style="color: #222222; background-color: #FFFFFF; height: 84px; margin-left: 56px; margin-right: 56px; padding-top: 14px; padding-bottom: 14px; border-radius: 28px; box-shadow: 0px 7px 35px #000000;">
+										<div class="row">
+											<span style="font-size:35px; margin-left: 42px;"> </span>
 												<!-- <img :src="catalog.catalog_image" width = "56" height="56" style="border-radius:21px; margin-left:21px;">		 -->
 												
-												<span style="font-size:21px; margin-left: 21px; margin-top:14px; font-weight:bold;">{{ product.product_name }} - {{ product.product_cost }} тг.</span>
-												<button class="btn btn-danger" @click="deleteProduct(product.id)" height="34px" style="position: absolute; margin-left: 1120px; margin-top:14px;">Удалить</button>
+											<span style="font-size:21px; margin-left: 21px; margin-top:14px; font-weight:bold;">{{ product.product_name }} -- Baker is {{ us.username }} -- Стоимость: {{ product.product_cost }} тг.</span>
+											<button class="btn btn-danger" @click="deleteProduct(product.id)" height="34px" style="position: absolute; margin-left: 1120px; margin-top:14px;">Удалить</button>
 
-												<!-- <button @click="deleteProduct(product.id)">asd</button> -->
-											</div>
 										</div>
-									<!-- </div>  product.product_catalog_id == catalog.id && -->
+								
+									</div>
 								</div>
-							</div><br>
+							</div>
 						</div>
 					<div class="row" style="margin-top: 42px; margin-left: 56px;">
 						<div class="form-group" style="color: #222222;">
@@ -32,11 +31,23 @@
 						</div>
 						<div style="color: #222222; margin-top: 21px; margin-left: 420px;">
 							<span style="font-size:35px; margin-left: 42px;">Итого:</span>
-							<span style="font-size:49px; margin-left: 7px; margin-top: 14px;"></span>
+							<span style="font-size:49px; margin-left: 7px; margin-top: 14px;">{{total}} тг.</span>
 						</div>
 					</div>
 					<div class="row" style="margin-top: 42px; margin-right: 56px; float:right;">
-						<button type="button" class="btn btn-success" style=" height:84px; width:230px; border-radius: 14px; font-size: 40px; font-weight: bold;">Купить</button>
+						<!-- <button type="button" class="btn btn-success" style=" height:84px; width:230px; border-radius: 14px; font-size: 40px; font-weight: bold;">Купить</button> -->
+						<button
+      type="button"
+      class="btn"
+      @click="showModal"
+    >
+      Open Modal!
+    </button>
+
+    <modal
+      v-show="isModalVisible"
+      @close="closeModal"
+    />
 					</div>
 					
 			 </div>
@@ -55,12 +66,14 @@
 import $ from 'jquery'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import modal from '@/components/modal'
 
 export default {
 		name: "Catalog",
 		components: {
 	        Navbar,
 	        Footer,
+	        modal,
      	},
      	data() {
      		return {
@@ -69,7 +82,8 @@ export default {
      			orders: '',
      			users: '',
      			usern: sessionStorage.getItem('login'),
-     			total: 0,
+     			tot: 0,
+     			isModalVisible: false,
      		}
      	},
      	created() {
@@ -79,59 +93,94 @@ export default {
 			this.loadOrder()
 		},
 		computed: {
- 		  
+ 		  	total: function() {
+ 		  		var sum = 0
+ 		  		var a = this.users  		
+ 		  		var b = this.orders
+ 		  		var c = this.products
+ 		  		var d = this.users
+ 		  		var session_users = this.usern
+ 		  		
+				Object.keys(a).forEach(function (key){
+					if (a[key].username == session_users) {
+						console.log(session_users)
+						Object.keys(b).forEach(function (key){
+							if (b[key].user.username == session_users) {
+								console.log(b[key].id)
+								Object.keys(c).forEach(function (keyy){
+									if (b[key].id == c[keyy].order) {
+										console.log(c[keyy].product_name)
+										sum += c[keyy].product_cost
+									}
+								});
+							}
+						});
+					}
+					
+				});
+				return sum
+ 		  	}
  		},
      	beforeCreate() {
-	        $.ajax({ 
-	            url: "http://89.219.32.10/api/products/",
+     		$.ajax({ 
+	            url: "http://127.0.0.1:8000/api/orders",
 	              type: "GET",
 	              success: (response) => {
-	                this.products = response.results
-	                console.log(response)
+	                this.orders = response
+	                
+	              }
+	        });
+	        $.ajax({ 
+	            url: "http://127.0.0.1:8000/api/products/",
+	              type: "GET",
+	              success: (response) => {
+	                this.products = response
 
 	                
 	              }
 	        });
 	        $.ajax({ 
-	            url: "http://89.219.32.10/api/catalog",
+	            url: "http://127.0.0.1:8000/api/catalog",
 	              type: "GET",
 	              success: (response) => {
-	                this.catalogs = response.results
-	                console.log(response)
+	                this.catalogs = response
 	                
 	              }
 	        });
 	        $.ajax({ 
-	            url: "http://89.219.32.10/api/users/",
+	            url: "http://127.0.0.1:8000/api/users/",
 	              type: "GET",
 	              success: (response) => {
-	                this.users = response.results
-	                console.log(response)
+	                this.users = response
 	                
 	              }
 	        });
 
     	},
     	methods: {
+    		showModal() {
+		        this.isModalVisible = true;
+		      },
+		      closeModal() {
+		        this.isModalVisible = false;
+		      },
     		loadOrder() {
     			$.ajax({ 
-	            url: "http://89.219.32.10/api/orders",
+	            url: "http://127.0.0.1:8000/api/orders",
 	              type: "GET",
 	              success: (response) => {
-	                this.orders = response.results
-	                console.log(response)
+	                this.orders = response
 	                
 	              }
 	        });
     		},
     		deleteProduct(e) {
     			$.ajax({ 
-	              url: "http://89.219.32.10/api/products/" + e,
+	              url: "http://127.0.0.1:8000/api/products/" + e,
 	              type: "DELETE",
 	              success: (response) => {
 	                // this.orders = response.results
-	                console.log("success")
-	                
+	                this.$router.go(0)
 	              }
 	        });
 	      		// this.$http.delete('api/products/884')

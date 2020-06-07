@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Login from '@/components/Login'
+import LoginBaker from '@/components/LoginBaker'
 import Registration from '@/components/Registration'
 import Bakery from '@/components/Bakery'
 import Catalog from '@/components/Catalog'
@@ -11,6 +12,10 @@ import Chart from '@/components/Chart'
 import ChartContainer from '@/components/ChartContainer'
 import Pagination from '@/components/Pagination'
 import User from '@/components/User'
+import BakerCatalog from '@/components/BakerCatalog'
+import BakerProfile from '@/components/BakerProfile'
+import BakerCreate from '@/components/BakerCreate'
+import BakerCatalogDetail from '@/components/BakerCatalogDetail'
 import JwPagination from 'jw-vue-pagination';
 Vue.component('jw-pagination', JwPagination);
 
@@ -54,6 +59,11 @@ export default new Router({
       component: Detail
     },
     {
+      path: '/bakercatalogdetail/:Pid',
+      name: 'bakercatalogdetail',
+      component: BakerCatalogDetail
+    },
+    {
       path: '/chart',
       name: 'chart',
       component: Chart
@@ -73,6 +83,26 @@ export default new Router({
       name: 'user',
       component: User
     },
+    {
+      path: '/loginbaker',
+      name: 'loginbaker',
+      component: LoginBaker
+    },
+    {
+      path: '/bakercatalog',
+      name: 'bakercatalog',
+      component: BakerCatalog
+    },
+    {
+      path: '/bakerprofile',
+      name: 'bakerprofile',
+      component: BakerProfile
+    },
+    {
+      path: '/bakercreate',
+      name: 'bakercreate',
+      component: BakerCreate
+    } 
   ]
 })
 

@@ -4,7 +4,7 @@ from .models import CustomUser, Customer, Product, ProductForm, ProductStuff, Pr
 import json
 import datetime
 from django.core.serializers.json import DjangoJSONEncoder
-from passporteye import read_mrz
+#from passporteye import read_mrz
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
@@ -26,7 +26,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = CustomUser
-		fields = ('email', 'username', 'password')
+		fields = ('email', 'username', 'password', 'first_name', 'last_name', 'iin', 'gender', 'birthday')
 		extra_kwargs = {'password':{'write_only': True}}
 
 	def create(self, validated_data):
@@ -35,7 +35,12 @@ class CustomUserSerializer(serializers.ModelSerializer):
 		if password is not None:
 			instance.set_password(password)
 		instance.save()
-		return instance	
+		return instance
+
+class CustomUserInfoSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = CustomUser
+		fields = ('email', 'username', 'first_name', 'last_name', 'uploadImage')	
 
 class UserListSerializer(serializers.ModelSerializer):
 	# snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=Snippet.objects.all())
@@ -57,17 +62,57 @@ class BakerCreateSerializer(serializers.ModelSerializer):
 
 	email = serializers.EmailField(required = False)
 	username = serializers.CharField()
+	first_name = serializers.CharField()
+	last_name = serializers.CharField()
 	password = serializers.CharField(min_length=8, write_only=True)
 	baker = BakerSerializer
 
+	@staticmethod
+	def validate_username(value):
+		# if not value.strip():
+		#     raise serializers.ValidationError("email should not be empty")
+		if CustomUser.objects.filter(username=value).exists():
+			raise serializers.ValidationError("username should be unique")
+		return value
+
+
+	@staticmethod
+	def validate_email(value):
+		# if not value.strip():
+		#     raise serializers.ValidationError("email should not be empty")
+		if CustomUser.objects.filter(email=value).exists():
+			raise serializers.ValidationError("email should be unique")
+		return value
+
+	@staticmethod
+	def validate_first_name(value):
+		if value is None or len(value) == 0:
+			raise serializers.ValidationError("validate_first_name")
+		return value
+
+	@staticmethod
+	def validate_last_name(value):
+		if value is None or len(value) == 0:
+			raise serializers.ValidationError("validate_first_name")
+		return value
+
 	class Meta:
 		model = CustomUser
-		fields = ('email', 'username', 'baker', 'password')
+		fields = ('email', 'username', 'first_name', 'last_name', 'baker', 'password')
 		extra_kwargs = {'password1':{'write_only': True}, 'baker':{'read_only': True}}
 
 	def create(self, validated_data):
 		password = validated_data.pop('password', None)
-		instance = self.Meta.model(**validated_data)
+		username = validated_data.get('username')
+		first_name = validated_data.get('first_name')
+		last_name = validated_data.get('last_name')
+		email = validated_data.get('email')
+		instance = CustomUser(
+			username=username,
+			first_name=first_name,
+			last_name=last_name,
+			email=email
+		)
 		if password is not None:
 			instance.set_password(password)
 		instance.save()
@@ -128,11 +173,11 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
 # 		model = Customer
 # 		fields = '__all__'
 
-class ProductListSerializer(serializers.ModelSerializer):
+# class ProductListSerializer(serializers.ModelSerializer):
 
-	class Meta:
-		model = Product
-		fields = '__all__'
+# 	class Meta:
+# 		model = Product
+# 		fields = '__all__'
 
 class ProductDetailSerializer(serializers.ModelSerializer):
 
@@ -176,11 +221,20 @@ class ProductToppingDetailSerializer(serializers.ModelSerializer):
         model = ProductTopping
         fields = '__all__'
 
+class ProductListSerializer(serializers.ModelSerializer):
+	productform = ProductFormDetailSerializer()
+	productstuff = ProductStuffDetailSerializer()
+	producttopping = ProductToppingDetailSerializer()
+	class Meta:
+		model = Product
+		fields = '__all__'
+
 class OrderListSerializer(serializers.ModelSerializer):
+	user = CustomUserInfoSerializer()
 	
 	class Meta:
 		model = Order
-		fields = '__all__' 
+		fields = '__all__'
 
 class OrderDetailSerializer(serializers.ModelSerializer):
 
@@ -210,8 +264,6 @@ class CatalogCreateSerializer(serializers.ModelSerializer):
 		model = Catalog
 		fields = '__all__'
 		
-
-
 class CatalogDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -243,14 +295,14 @@ class ImageModelSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = ImageModel
-		fields = ('imageUpload', 'name', 'surname')
+		fields = ('imageUpload', 'name', 'surname', 'iin', 'gender', 'birthday')
 
 	def create(self, validated_data):
 		from passporteye import read_mrz
 		img = validated_data['imageUpload']
 		mrz = read_mrz(img.read(), save_roi=True)
 		mrz_data = mrz.to_dict()
-		print(mrz_data['names'])
-		content = ImageModel(imageUpload=img, name=mrz_data['names'], surname=mrz_data['surname'])
+		#print(mrz_data['names'])
+		content = ImageModel(imageUpload=img, name=mrz_data['names'], surname=mrz_data['surname'], iin=mrz_data['optional1'].replace('<',''), birthday=mrz_data['date_of_birth'], gender=mrz_data['sex'])
 		content.save()
 		return content

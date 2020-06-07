@@ -65,11 +65,11 @@
     },
     beforeCreate() {
         $.ajax({ 
-            url: "http://89.219.32.10/api/users/",
+            url: "http://127.0.0.1:8000/api/users/",
               type: "GET",
               success: (response) => {
-                this.users = response.results
-                console.log(response)
+                this.users = response
+                // console.log(response)
 
                 
               }

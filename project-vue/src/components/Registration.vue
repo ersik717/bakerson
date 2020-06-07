@@ -6,23 +6,34 @@
 	<div>
 			<!-- <br><br><br><br>		 -->
 		<form @submit.prevent="setRegistration">
-		   	<!-- <input v-model="username" type="username" placeholder="Имя пользователя" required> <br>
-		    <input v-model="email" type="email" placeholder="Почта" required> <br>
-        <input v-model="first_name" type="first_name" placeholder="Имя пользователя" required> <br>
-        <input v-model="last_name" type="last_name" placeholder="Фамилия пользователя" required> <br>
-        <input v-model="user_phone" type="user_phone" placeholder="Номер телефона" required> <br>
-        <input v-model="user_address" type="user_address" placeholder="Адрес" required> <br>
-		    <input v-model="password" type="password" placeholder="Пароль" required> <br>
-		    <input v-model="repeatedPassword" type="password" placeholder="Подтверждение пароля" required ref="repeatedPasswordEl"> <br>
-        <input v-model="customer_cardnumber" type="customer_cardnumber" placeholder="Карта пользователя" required> <br>
-		    <button type="submit">
-		      Отправить форму
-		    </button> -->
-
   <div id="Third" class="bg-2" style="display: flex; justify-content: center; align-items: center;">
-    <div id="customform" style="height: 1270px; width: 500px; margin: 140px; ">
+    <div id="customform" style="height: 1650px; width: 500px; margin: 140px; ">
       <div class="container-fluid text-left" style="padding: 42px;">
         <h3 style="font-weight: bold; color:#222222; text-align: center;">Регистрация</h3>
+        <input type="file" @change="onFileSelected()" class="inputfile" name="file" id="file" style="color: #ffc872; background-color: #242424; font-size: 17px; border: 3px solid #ffc872; border-radius: 48px; padding: 5px 10px;">
+        <label for="file" style="color: #ffc872;  margin-right: 200px; background-color: #242424; font-size: 17px; border: 3px solid #ffc872; border-radius: 48px; padding: 5px 10px; font-weight: bold;  margin-block-end: initial;">Выберите файл</label>
+        <button @click.prevent="onUpload" class="btn btn-warning" style="border-radius: 48px; font-size: 17px; font-weight: bold; margin-top:10px; margin-bottom:20px; padding: 5px 10px; margin-bottom: -25px;">Загрузить</button>
+        <b-button v-b-popover="'Загрузите сюда удостоверение'" title="Подсказка">?</b-button>
+      </div>
+      <div class="form-group" style="color: #222222; margin-left: 21px; ">
+        <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Имя:</label>
+        <input v-model="result.name" type="text" class="form-control" id="addressinput" placeholder="Введите Имя">
+      </div>
+      <div class="form-group" style="color: #222222; margin-left: 21px; ">
+        <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Фамилия:</label>
+        <input v-model="result.surname" type="text" class="form-control" id="addressinput" placeholder="Введите Фамилию">
+      </div>
+      <div class="form-group" style="color: #222222; margin-left: 21px; ">
+        <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">ИИН:</label>
+        <input v-model="result.iin" type="text" class="form-control" id="addressinput" placeholder="Введите ИИН">
+      </div>
+      <div class="form-group" style="color: #222222; margin-left: 21px; ">
+        <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Пол:</label>
+        <input v-model="result.birthday" type="text" class="form-control" id="addressinput" placeholder="Введите Пол">
+      </div>
+      <div class="form-group" style="color: #222222; margin-left: 21px; ">
+        <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Пол:</label>
+        <input v-model="result.gender" type="text" class="form-control" id="addressinput" placeholder="Введите Пол">
       </div>
       <div class="form-group" style="color: #222222; margin-left: 21px; ">
         <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Никнейм:</label>
@@ -31,14 +42,6 @@
       <div class="form-group" style="color: #222222; margin-left: 21px; ">
         <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Почта:</label>
         <input v-model="email" type="text" class="form-control" id="addressinput" placeholder="Введите Почту">
-      </div>
-      <div class="form-group" style="color: #222222; margin-left: 21px; ">
-        <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Имя:</label>
-        <input v-model="first_name" type="text" class="form-control" id="addressinput" placeholder="Введите Имя">
-      </div>
-      <div class="form-group" style="color: #222222; margin-left: 21px; ">
-        <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Фамилия:</label>
-        <input v-model="last_name" type="text" class="form-control" id="addressinput" placeholder="Введите Фамилию">
       </div>
       <div class="form-group" style="color: #222222; margin-left: 21px; ">
         <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Номер телефона:</label>
@@ -64,11 +67,11 @@
         <button type="submit" class="btn btn-warning" style="height:48px; width:240px; border-radius: 14px; font-size: 24px; font-weight: bold;">Регистрация</button>
       </div>
     </div>
+    
 </div>
 
-
-
 		</form>
+
 	</div>
 
  </div>
@@ -77,6 +80,7 @@
 <script>
 import $ from 'jquery'
 import Navbar from '@/components/Navbar'
+import axios from 'axios'
 export default {
   components: {
         Navbar,
@@ -84,6 +88,7 @@ export default {
 
   data() {
     return {
+      result: '',
       username: null,
       email: null,
       first_name: null,
@@ -115,16 +120,41 @@ export default {
         repeatedPasswordEl.setCustomValidity('');
       }
     },
+
+    onFileSelected() {
+        this.selectedFile = event.target.files[0]
+        console.log(event.target.files[0])
+      },
+      onUpload() {
+        let fd = new FormData();
+        fd.append('imageUpload', this.selectedFile)
+        console.log(fd)
+        console.log(this.selectedFile)
+        axios.post('http://127.0.0.1:8000/api/imagepassport/create', fd, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+          })
+          .then(res => {
+            console.log(res.data)
+            this.result = res.data
+          })
+        
+      },
+
     setRegistration() {
     	$.ajax({
-	    	url: "http://89.219.32.10/api/users/create/",
+	    	url: "http://127.0.0.1:8000/api/users/create/",
 	    	type: "POST",
 	    	data: {
 		    	username: this.username,
 		    	email: this.email,
-          first_name: this.first_name,
-          last_name: this.last_name,
+          first_name: this.result.name,
+          last_name: this.result.surname,
           user_phone: this.user_phone,
+          iin: this.result.iin,
+          gender: this.result.gender,
+          birthday: this.result.birthday,
           user_address: this.user_address,
 		    	password: this.password,
 	    	},
@@ -146,9 +176,29 @@ export default {
 
 
 <style>
-  
+.inputfile {
+    width: 0.0px;
+    height: 0.0px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
 
-  
+
+  .loader {
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
   
   .slideanim {
     visibility:hidden;

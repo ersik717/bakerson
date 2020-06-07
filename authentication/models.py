@@ -4,19 +4,22 @@ from taggit.managers import TaggableManager
 import json
 import datetime
 from django.db.models import Avg
-from passporteye import read_mrz
+#from passporteye import read_mrz
 # Create your models here.
 
 
 ORDER_STATUS = (
-	(1, "In review"),
-	(2, "Accepted"),
-	(3, "Rejected")
+	(0, "In review"),
+	(1, "Accepted"),
+	(2, "Rejected")
 )
 
 class CustomUser(AbstractUser):
 	user_phone = models.CharField(blank=True, max_length=35)
 	user_address = models.CharField(blank=True, max_length=120)
+	iin = models.CharField(blank=True, max_length=30)
+	gender = models.CharField(blank=True, max_length=10)
+	birthday = models.CharField(null=True, max_length=30) 
 	uploadImage = models.ImageField('Аватар', upload_to = 'project-vue/src/assets/uploads')
 
 class Customer(models.Model):
@@ -63,8 +66,9 @@ class Catalog(models.Model):
 	catalog_rating = models.FloatField('Рейтинг продукта', default=0.0)
 	catalog_calory = models.IntegerField('Калории продукта', default=0)
 	catalog_image = models.ImageField('Картинка каталога', upload_to = 'project-vue/src/assets/catalog')
-	catalog_date = models.DateField()
-	catalog_expiredate = models.DateField()
+	catalog_date = models.DateField(auto_now_add=True)
+	# catalog_expiredate = models.DateField()
+	expiredate = models.IntegerField() 
 	catalog_type = models.CharField('Тип продукта', max_length=35)
 	baker = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
 	# form = models.ForeignKey(ProductForm, on_delete = models.CASCADE)
@@ -106,6 +110,9 @@ class ImageModel(models.Model):
 	imageUpload = models.ImageField('Удостоверение', upload_to = 'project-vue/src/assets/passport')
 	name = models.CharField('Имя', max_length=35, null=True, blank=True)
 	surname = models.CharField('Фамилия', max_length=35, null=True, blank=True)
+	iin = models.CharField(blank=True, max_length=30)
+	gender = models.CharField(blank=True, max_length=10)
+	birthday = models.CharField(null=True, max_length=30) 
 
 	# def __str__(self):
 	#     mrz = read_mrz(self.imageUpload.read(), save_roi=True)

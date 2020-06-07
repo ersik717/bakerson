@@ -47,15 +47,16 @@
 							<input type="text" class="form-control" id="addressinput" placeholder="Напишите текст">
 						</div>
 			<div v-for="(order, asd) in orders">
-            <div v-if="u_id == order.user_id && order.order_confirm == false">
+
+            <div v-if="usern == order.user.username && order.order_confirm == false">
               <button v-if="asd !== 0" @click="createProduct(order.id)">Добавить в корзину</button>
             </div>
             <div v-else>
-              <div v-for="(orde, key) in orders" v-if="u_id !== order.user_id">
+              <div v-for="(orde, key) in orders" v-if="usern !== order.user.username">
                 <h4 style="visibility: hidden;">{{ cd = key }}</h4>
                   
               </div>
-              <button v-if="cd == 0" @click="createOrder()">Создать заказ</button>
+              <button v-if="cd == 0" @click="goOrder()">Создать заказ</button>
               <!-- <div v-for="(ord, index) in orders">
                 <div v-if="user_id == ord.user_id && ord.order_confirm && cd <= 2 "> {{ goProduct(ord.id) }} {{ cd + 1 }} </div>
               </div> -->
@@ -86,23 +87,24 @@
 				u_id: sessionStorage.getItem('us_id'),
 				users: '',
 				orders: '',
+				usern: sessionStorage.getItem('login')
 			}
 			
 		},
 		beforeCreate() {
 			 $.ajax({ 
-            url: "http://89.219.32.10/api/users/",
+            url: "http://127.0.0.1:8000/api/users/",
               type: "GET",
               success: (response) => {
-                this.users = response.results
+                this.users = response
 
               }
 	        });
 	        $.ajax({ 
-	            url: "http://89.219.32.10/api/orders",
+	            url: "http://127.0.0.1:8000/api/orders",
 	              type: "GET",
 	              success: (response) => {
-	                this.orders = response.results
+	                this.orders = response
 
 	              }
 	        });
@@ -165,7 +167,7 @@
 					return false
 				}
 				$.ajax({
-			        url: "http://89.219.32.10/api/products/create",
+			        url: "http://127.0.0.1:8000/api/products/create",
 			        type: "POST",
 			        data: {
 			            product_name: fp + ' ' + sp + ' ' + tp,
@@ -179,40 +181,48 @@
 			            productform: fID,
 			            productstuff: sID,
 			            producttopping: tID,
-			            order_id: someOrderID,
+			            order: someOrderID,
 			        },
 			        success: (response) => {
 			          console.log('success')
 			          alert("Продукт добавлен в корзину")
 			        },
 			        error: (response) => {
-			          console.log('Comments is not working')
+			          console.log('response')
 			        }
       			})
 			},
-			createOrder() {
+			goOrder() {
 		        $.ajax({
-		        url: "http://89.219.32.10/api/orders/create",
+		        headers: {'Authorization': "JWT " + sessionStorage.getItem('access')},
+		        url: "http://127.0.0.1:8000/api/orders/create",
 		        type: "POST",
 		        data: {
-		            order_total: 0,
-		            order_address: 'asd',
+		            user: {
+		              email: "ersik1717@gmail.com",
+		              username: "admin",
+		              first_name: "",
+		              last_name: "",
+		              uploadImage: "http://127.0.0.1:8000/media/project-vue/src/assets/uploads/operator_m_K5fwP1G.png"
+		            },
+		            order_total: 3,
+		            order_address: 'almaty',
 		            order_date: '2020-05-10',
 		            order_confirm: false,
-		            order_detail_text: "qweasd",
-		            user_id: this.u_id
+		            order_detail_text: "qwerty",
+		            baker: 23
 		        },
 		        success: (response) => {
 		          console.log('success')
-		          // this.$router.go(0)
+		          this.$router.go(0)
 		          alert("Ваш заказ создан, теперь добавьте в корзину")
 		        },
 		        error: (response) => {
-		          console.log('Comments is not working')
+		          console.log(response)
 		        }
 		      })
-	        
-      	},
+        
+      		},
 	}
 	});
   </script>

@@ -1,50 +1,69 @@
 <template>
     <div>
 
-        <div id="Third" class="bg-2">
+<div id="Third" class="bg-2">
   <div class="container-fluid text-left" style="padding-left:0px; padding-top:56px; padding-bottom:140px;">
+    <div style="padding-left:0px; padding-top:56px; margin-bottom:120px;">
     <div class="row" style="margin-top: 42px; margin-bottom: 14px; margin-right:100px; float:right;">
-      <span style="font-size:21px; margin-top:7px;margin-right:21px; color: #222222;">Сортировать по:</span>
+      <span style="font-size:21px; margin-top:7px; margin-right:21px; color: #222222;">Сортировать по:</span>
     <select name="bakeform" id="bundown" style="width: 350px;" @change="Sort($event)">
       <option value="pricehigh">Цене(сначала дорогие)</option>
       <option value="pricelow">Цене(сначала дешевые)</option>
       <option value="popular">Популярности</option>
     </select>
     </div>
-    <!-- <button @click="sorting *= -1">Toggle order</button> -->
-    <div class="catal">
-    <ul> 
-    <div v-for="item in catalog" :key="item.id" style="color:#222222; margin-top: 42px; margin-bottom: 14px; margin-left:14px; ">
-      <li>
-      <div id="customcatalog">
-        <img :src="item.catalog_image" style="margin: 21px; width: 329px; height: 230px; border-radius:21px; object-fit: cover;">
-        <div class="row" style="display: flex; justify-content: center; align-items: center;">
-          <span style="font-size:24px; color: #222222;">{{item.catalog_name}}</span>  
+    </div>
+      <!-- <div v-for="item in catalog" :key="item.id" id="customcatalog" style="padding:21px; height:260px; width: 1370px;">
+      <div class="row">
+        <div class="col-sm-4">
+        <img :src="item.catalog_image" style="width: 210px; height: 210px; border-radius:21px; object-fit: cover;">
         </div>
-        <div class="row">
-          <img src="@/assets/Elements/star.png" style="margin-left:55px; margin-top:5px; width: 35px; height: 35px;">
-          <span style="font-size:32px; color: #222222; margin-left: 7px;">{{item.catalog_rating}}</span>
-          <span style="font-size:32px; font-weight:bold; color: #222222; margin-left:120px">{{item.catalog_price}} тг.</span>
-        </div>
-        <div class="row" style="display: flex; justify-content: center; align-items: center;">
-          <div v-for="user in users" v-if="user.username == usern">
-          <button @click="goTodetail(item.id); goID(user.id); goPN(item.catalog_name); goMD(item.catalog_date); goED(item.catalog_expiredate); goPT(item.catalog_type); goDT(item.catalog_description); goPC(item.catalog_calory); goPCost(item.catalog_price); goPF(item.catalog_form); goPS(item.catalog_stuff); goPTop(item.catalog_topping)" type="button" class="btn btn-success" style="height:48px; width:190px; margin-top:10px; border-radius: 14px; font-size: 24px; font-weight: bold;">Перейти</button>
-        </div>
+        <div class="col-sm-8">
+          <div class="row">
+          <h3 style="font-size:24px; color: #222222; font-weight:bold;">{{item.catalog_name}}</h3>
+          <h1 style="font-size:18px; color: #222222; margin-left:7px; margin-top:4px;">от СуперПекарь2020</h1>
+          <img src="@/assets/Elements/star.png" style="margin-left:21px; width: 28px; height: 28px;">
+          <label style="font-size:28px; color: #222222; margin-left:7px; margin-top:-5px;">{{item.catalog_rating}}</label>
+          </div>
+          <div style="color: #222222; overflow:hidden; text-overflow: ellipsis; margin-left:-16px; width:1000px; max-height:90px; ">
+          {{ item.catalog_description }}
+          </div>
+          <div class="row">
+          <label style="font-size:32px; font-weight:bold; color: #222222; margin-top: 28px;">{{item.catalog_price}} тг.</label>
+          <div v-for="user in users" v-if="user.username == usern" style="display: flex; justify-content: center; align-items: center;">
+            <button  @click="goTodetail(item.id); goTodetail(item.id); goID(user.id); goPN(item.catalog_name); goMD(item.catalog_date); goED(item.catalog_expiredate); goPT(item.catalog_type); goDT(item.catalog_description); goPC(item.catalog_calory); goPCost(item.catalog_price); goPF(item.catalog_form); goPS(item.catalog_stuff); goPTop(item.catalog_topping)" type="button" class="btn btn-success" style="height:48px; width:190px; margin-top:20px; margin-left:21px; border-radius: 14px; font-size: 24px; font-weight: bold;">Перейти</button>
+          </div>
+          </div>
         </div>
       </div>
-      </li>
-    </div>
-    
-    </ul>
-  </div>
-
-     <div class="card-footer pb-0 pt-3">
-            <jw-pagination :items="catalog" @changePage="onChangePage"></jw-pagination>
+    </div> -->
+    <div v-for="item in catalog" :key="item.id" id="customcatalog" class="customcatalog" style="padding:21px; height:260px; width: 1370px;">
+      <div class="row">
+        <div class="col-sm-4">
+        <img :src="item.catalog_image" style="width: 210px; height: 210px; border-radius:21px; object-fit: cover;">
         </div>
+        <div class="col-sm-8" style="margin-left:-180px;">
+          <div class="row">
+          <h3 style="font-size:24px; color: #222222; font-weight:bold;">{{item.catalog_name}}</h3>
+          <h1 style="font-size:18px; color: #222222; margin-left:7px; margin-top:4px;">от {{item.baker.username}}</h1>
+          <img src="@/assets/Elements/star.png" style="margin-left:21px; width: 28px; height: 28px;">
+          <label style="font-size:28px; color: #222222; margin-left:7px; margin-top:-5px;">{{item.catalog_rating}}</label>
+          </div>
+          <div style="color: #222222; overflow:hidden; text-overflow: ellipsis; margin-left:-16px; width:1000px; max-height:90px; ">
+          {{ item.catalog_description }}
+          </div>
+          <div class="row">
+          <label style="font-size:32px; font-weight:bold; color: #222222; margin-top: 28px;">1400 тг.</label>
+          <div v-for="user in users" v-if="user.username == usern" style="display: flex; justify-content: center; align-items: center;">
+            <button  @click="goTodetail(item.id); goTodetail(item.id); goID(user.id); goPN(item.catalog_name); goMD(item.catalog_date); goED(item.catalog_expiredate); goPT(item.catalog_type); goDT(item.catalog_description); goPC(item.catalog_calory); goPCost(item.catalog_price); goPF(item.catalog_form); goPS(item.catalog_stuff); goPTop(item.catalog_topping)" type="button" class="btn btn-success" style="height:48px; width:190px; margin-top:20px; margin-left:21px; border-radius: 14px; font-size: 24px; font-weight: bold;">Перейти</button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
-
-
 
 
        
@@ -66,19 +85,19 @@ export default {
     },
     beforeCreate() {
         $.ajax({ 
-            url: "http://89.219.32.10/api/catalog",
+            url: "http://127.0.0.1:8000/api/catalog",
               type: "GET",
               success: (response) => {
-                this.catalog = response.results
+                this.catalog = response
 
               }
 
         });
         $.ajax({ 
-            url: "http://89.219.32.10/api/users/",
+            url: "http://127.0.0.1:8000/api/users/",
               type: "GET",
               success: (response) => {
-                this.users = response.results
+                this.users = response
                 // console.log(response)
 
                 
@@ -158,6 +177,9 @@ export default {
         goPTop(somePTop) {
              sessionStorage.setItem("cat_PT", somePTop)   
         },
+        goBname(someBname) {
+             sessionStorage.setItem("cat_bname", someBname)   
+        },
     }
 };
 
@@ -165,17 +187,6 @@ export default {
 
 
 <style>
-  .catal ul {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  padding-left: 0 !important;
-}
-
-.catal ul li {
-  list-style: none !important;
-  flex: 0 0 33.333333% !important;
-}
-  
   .slideanim {
     visibility:hidden;
     }
@@ -281,13 +292,11 @@ color: white;
     padding-left: 21px;
     margin-bottom: 28px;
   }
-#customcatalog{
-  background-color: #FFFFFF;
-  width: 370px; 
-  height:420px;
+.customcatalog{
+  background-color: #FFFFFF; 
   margin-left: 70px;
   margin-right: 70px;
-  margin-top: 100px;
+  margin-bottom: 70px;
   border-radius: 28px;
   box-shadow: 0px 14px 35px #000000;
 }
@@ -328,4 +337,5 @@ color: #FEC27F !important;
    -moz-transform: scale(1.1);
    -o-transform: scale(1.1);
    }
+  
   </style>

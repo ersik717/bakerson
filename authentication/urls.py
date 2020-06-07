@@ -36,7 +36,8 @@ from .views import (ObtainTokenPairWithColorView,
 					BakerListView,
 					BakerDetailView,
 					BakerCatalogListView,
-					OrderProductsView)
+					OrderProductsView,
+					OrderUserListView)
 
 urlpatterns = [
 	path('users/create/', CustomUserCreate.as_view(), name="create_user"),
@@ -72,7 +73,7 @@ urlpatterns = [
 	path('product/topping/<int:pk>', ProductToppingDetailView.as_view()),
 	path('product/topping/create', ProductToppingCreateView.as_view()),
 
-	path('orders', OrderListView.as_view()),
+	path('orders', OrderUserListView.as_view()),
 	path('orders/<int:pk>', OrderDetailView.as_view()),
 	path('orders/<int:pk>/products', OrderProductsView.as_view()),
 	path('orders/create', OrderCreateView.as_view()),
