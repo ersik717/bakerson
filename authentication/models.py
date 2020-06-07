@@ -80,7 +80,7 @@ class Catalog(models.Model):
 class Product(models.Model):
 	product_name = models.CharField('Имя', max_length=35)
 	manufacture_date = models.DateField('Дата производства')
-	expire_date = models.DateField('Срок годности')
+	expire_date = models.IntegerField() 
 	product_type = models.CharField('Тип продукта', max_length=35)
 	customized = models.BooleanField(default=True)
 	#product_form = models.CharField('Форма продукта', max_length=35, null=True)

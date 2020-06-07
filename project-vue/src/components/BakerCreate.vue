@@ -92,7 +92,7 @@
 					data.append('catalog_rating', 0.0);
 					data.append('catalog_calory', this.calory);
 
-					axios.post('http://127.0.0.1:8000/api/catalog/create', data, {
+					axios.post('http://89.219.32.10/api/catalog/create', data, {
            				headers: {
            					'Authorization': "JWT " + sessionStorage.getItem('access'),
                 			'Content-Type': 'multipart/form-data'

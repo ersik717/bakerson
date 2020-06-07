@@ -130,7 +130,7 @@ export default {
         fd.append('imageUpload', this.selectedFile)
         console.log(fd)
         console.log(this.selectedFile)
-        axios.post('http://127.0.0.1:8000/api/imagepassport/create', fd, {
+        axios.post('http://89.219.32.10/api/imagepassport/create', fd, {
             headers: {
                 'Content-Type': 'multipart/form-data'
               }
@@ -144,7 +144,7 @@ export default {
 
     setRegistration() {
     	$.ajax({
-	    	url: "http://127.0.0.1:8000/api/users/create/",
+	    	url: "http://89.219.32.10/api/users/create/",
 	    	type: "POST",
 	    	data: {
 		    	username: this.username,

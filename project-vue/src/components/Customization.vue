@@ -93,7 +93,7 @@
 		},
 		beforeCreate() {
 			 $.ajax({ 
-            url: "http://127.0.0.1:8000/api/users/",
+            url: "http://89.219.32.10api/users/",
               type: "GET",
               success: (response) => {
                 this.users = response
@@ -101,7 +101,7 @@
               }
 	        });
 	        $.ajax({ 
-	            url: "http://127.0.0.1:8000/api/orders",
+	            url: "http://89.219.32.10/api/orders",
 	              type: "GET",
 	              success: (response) => {
 	                this.orders = response
@@ -167,7 +167,7 @@
 					return false
 				}
 				$.ajax({
-			        url: "http://127.0.0.1:8000/api/products/create",
+			        url: "http://89.219.32.10/api/products/create",
 			        type: "POST",
 			        data: {
 			            product_name: fp + ' ' + sp + ' ' + tp,
@@ -195,7 +195,7 @@
 			goOrder() {
 		        $.ajax({
 		        headers: {'Authorization': "JWT " + sessionStorage.getItem('access')},
-		        url: "http://127.0.0.1:8000/api/orders/create",
+		        url: "http://89.219.32.10/api/orders/create",
 		        type: "POST",
 		        data: {
 		            user: {
@@ -203,7 +203,7 @@
 		              username: "admin",
 		              first_name: "",
 		              last_name: "",
-		              uploadImage: "http://127.0.0.1:8000/media/project-vue/src/assets/uploads/operator_m_K5fwP1G.png"
+		              uploadImage: "http://89.219.32.10/media/project-vue/src/assets/uploads/operator_m_K5fwP1G.png"
 		            },
 		            order_total: 3,
 		            order_address: 'almaty',

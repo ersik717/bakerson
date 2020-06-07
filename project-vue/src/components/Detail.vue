@@ -168,7 +168,7 @@ export default {
 
     beforeCreate() {
         $.ajax({ 
-            url: "http://127.0.0.1:8000/api/catalog",
+            url: "http://89.219.32.10/api/catalog",
               type: "GET",
               success: (response) => {
                 this.catalogs = response
@@ -178,7 +178,7 @@ export default {
               }
         });
         $.ajax({ 
-              url: "http://127.0.0.1:8000/api/review",
+              url: "http://89.219.32.10api/review",
               type: "GET",
               success: (response) => {
                 this.reviews = response
@@ -188,7 +188,7 @@ export default {
               }
         });
         $.ajax({ 
-            url: "http://127.0.0.1:8000/api/product/stuff/",
+            url: "http://89.219.32.10/api/product/stuff/",
               type: "GET",
               success: (response) => {
                 this.stuffs = response
@@ -197,7 +197,7 @@ export default {
               }
         });
         $.ajax({ 
-            url: "http://127.0.0.1:8000/api/product/topping/",
+            url: "http://89.219.32.10/api/product/topping/",
               type: "GET",
               success: (response) => {
                 this.toppings = response
@@ -206,7 +206,7 @@ export default {
               }
         });
         $.ajax({ 
-            url: "http://127.0.0.1:8000/api/users/",
+            url: "http://89.219.32.10/api/users/",
               type: "GET",
               success: (response) => {
                 this.users = response
@@ -214,7 +214,7 @@ export default {
               }
         });
         $.ajax({ 
-            url: "http://127.0.0.1:8000/api/orders",
+            url: "http://89.219.32.10/api/orders",
               type: "GET",
               success: (response) => {
                 this.orders = response
@@ -226,7 +226,7 @@ export default {
     methods: {
       deleteComment(e) {
           $.ajax({ 
-                url: "http://127.0.0.1:8000/api/review/" + e,
+                url: "http://89.219.32.10/api/review/" + e,
                 type: "DELETE",
                 success: (response) => {
                   // this.orders = response.results
@@ -247,7 +247,7 @@ export default {
         },
       setReview() {
         $.ajax({
-        url: "http://127.0.0.1:8000/api/review/create",
+        url: "http://89.219.32.10/api/review/create",
         type: "POST",
         data: {
             comment: this.comment,
@@ -266,7 +266,7 @@ export default {
       },
       goProduct(someOrderID) {
           $.ajax({
-          url: "http://127.0.0.1:8000/api/products/create",
+          url: "http://89.219.32.10/api/products/create",
           type: "POST",
           data: {
               product_name: this.cat_name,
@@ -304,7 +304,7 @@ export default {
       goOrder() {
         $.ajax({
         headers: {'Authorization': "JWT " + sessionStorage.getItem('access')},
-        url: "http://127.0.0.1:8000/api/orders/create",
+        url: "http://89.219.32.10/api/orders/create",
         type: "POST",
         data: {
             user: {
@@ -312,7 +312,7 @@ export default {
               username: "admin",
               first_name: "",
               last_name: "",
-              uploadImage: "http://127.0.0.1:8000/media/project-vue/src/assets/uploads/operator_m_K5fwP1G.png"
+              uploadImage: "http://89.219.32.10/media/project-vue/src/assets/uploads/operator_m_K5fwP1G.png"
             },
             order_total: 3,
             order_address: 'almaty',

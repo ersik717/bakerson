@@ -216,7 +216,7 @@ color: #FEC27F !important;
 		},
 		beforeCreate() {
 			$.ajax({ 
-	            url: "http://127.0.0.1:8000/api/users/",
+	            url: "http://89.219.32.10/api/users/",
 	              type: "GET",
 	              success: (response) => {
 	                this.users = response
@@ -224,7 +224,7 @@ color: #FEC27F !important;
 	              }
 	        });
 	        $.ajax({ 
-	            url: "http://127.0.0.1:8000/api/bakers",
+	            url: "http://89.219.32.10/api/bakers",
 	              type: "GET",
 	              success: (response) => {
 	                this.bakers = response
@@ -235,7 +235,7 @@ color: #FEC27F !important;
 		methods: {
 			setLogin() {
 				$.ajax({
-					url: "http://127.0.0.1:8000/api/token/obtain/",
+					url: "http://89.219.32.10/api/token/obtain/",
 					type: "POST",
 					data: {
 						username: this.login,
