@@ -32,8 +32,12 @@
         <input v-model="result.birthday" type="text" class="form-control" id="addressinput" placeholder="Введите Пол">
       </div>
       <div class="form-group" style="color: #222222; margin-left: 21px; ">
-        <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Пол:</label>
-        <input v-model="result.gender" type="text" class="form-control" id="addressinput" placeholder="Введите Пол">
+        <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Дата рождения:</label>
+        <input v-model="result.gender" type="text" class="form-control" id="addressinput" placeholder="Дата Рождения">
+      </div>
+      <div class="form-group" style="color: #222222; margin-left: 21px; ">
+        <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Введите национальность</label>
+        <input v-model="result.nationality" type="text" class="form-control" id="addressinput" placeholder="Введите Национальность">
       </div>
       <div class="form-group" style="color: #222222; margin-left: 21px; ">
         <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Никнейм:</label>
@@ -58,10 +62,6 @@
       <div class="form-group" style="color: #222222; margin-left: 21px;">
         <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Подтверждение Пароля:</label>
         <input v-model="repeatedPassword" type="password" class="form-control" id="addressinput" placeholder="Подтверждение пароля" required ref="repeatedPasswordEl">
-      </div>
-      <div class="form-group" style="color: #222222; margin-left: 21px; ">
-        <label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Введите карту</label>
-        <input v-model="customer_cardnumber" type="text" class="form-control" id="addressinput" placeholder="Введите Номер карты">
       </div>
       <div class="row" style="display: flex; justify-content: center; align-items: center;">
         <button type="submit" class="btn btn-warning" style="height:48px; width:240px; border-radius: 14px; font-size: 24px; font-weight: bold;">Регистрация</button>
@@ -130,7 +130,7 @@ export default {
         fd.append('imageUpload', this.selectedFile)
         console.log(fd)
         console.log(this.selectedFile)
-        axios.post('http://89.219.32.10/api/imagepassport/create', fd, {
+        axios.post('http://127.0.0.1:8000/api/imagepassport/create', fd, {
             headers: {
                 'Content-Type': 'multipart/form-data'
               }
@@ -144,7 +144,7 @@ export default {
 
     setRegistration() {
     	$.ajax({
-	    	url: "http://89.219.32.10/api/users/create/",
+	    	url: "http://127.0.0.1:8000/api/users/create/",
 	    	type: "POST",
 	    	data: {
 		    	username: this.username,

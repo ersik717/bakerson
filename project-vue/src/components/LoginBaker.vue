@@ -1,10 +1,10 @@
 <template>
 <div>
-<div><navbar></navbar></div>
+<div><BakerNavbar></BakerNavbar></div>
 <div id="Third" class="bg-2" style="display: flex; justify-content: center; align-items: center;">
 	<div id="customform" style="height: 560px; width: 500px; margin: 140px; ">
 		<div class="container-fluid text-left" style="padding: 42px;">
-			<h3 style="font-weight: bold; color:#222222; text-align: center;">Вход</h3>
+			<h3 style="font-weight: bold; color:#222222; text-align: center;">Войти как партнер <a @click="goBakerLogin" >→</a></h3>
 		</div>
 		<div class="form-group" style="color: #222222; margin-left: 21px; ">
 			<label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Почта:</label>
@@ -143,7 +143,7 @@ color: white;
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		background-color: #EDEDED;
-		border-color: #FABE7C;
+		border-color: #47C0E7;
 		border-width: 2px;
 		border-radius: 14px;
 		width: 450px;
@@ -195,12 +195,12 @@ color: #FEC27F !important;
 <script>
 	import $ from 'jquery'
 	import User from './User'
-	import Navbar from '@/components/Navbar'
+	import BakerNavbar from '@/components/BakerNavbar'
 	var myVar = ''
 	export default {
 		name: "Login",
 		components: {
-        Navbar,
+        BakerNavbar,
      	},
 		props: {
 
@@ -216,7 +216,7 @@ color: #FEC27F !important;
 		},
 		beforeCreate() {
 			$.ajax({ 
-	            url: "http://89.219.32.10/api/users/",
+	            url: "http://127.0.0.1:8000/api/users/",
 	              type: "GET",
 	              success: (response) => {
 	                this.users = response
@@ -224,7 +224,7 @@ color: #FEC27F !important;
 	              }
 	        });
 	        $.ajax({ 
-	            url: "http://89.219.32.10/api/bakers",
+	            url: "http://127.0.0.1:8000/api/bakers",
 	              type: "GET",
 	              success: (response) => {
 	                this.bakers = response
@@ -235,7 +235,7 @@ color: #FEC27F !important;
 		methods: {
 			setLogin() {
 				$.ajax({
-					url: "http://89.219.32.10/api/token/obtain/",
+					url: "http://127.0.0.1:8000/api/token/obtain/",
 					type: "POST",
 					data: {
 						username: this.login,
@@ -269,6 +269,9 @@ color: #FEC27F !important;
 			},	
 			trigger () {
 		        this.$refs.setLogin.click()
+		    },
+		    goBakerLogin() {
+		    	window.location = '/#/login'
 		    }
 		},
 

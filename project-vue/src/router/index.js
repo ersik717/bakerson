@@ -15,7 +15,9 @@ import User from '@/components/User'
 import BakerCatalog from '@/components/BakerCatalog'
 import BakerProfile from '@/components/BakerProfile'
 import BakerCreate from '@/components/BakerCreate'
+import BakerOrder from '@/components/BakerOrder'
 import BakerCatalogDetail from '@/components/BakerCatalogDetail'
+import OrderDetail from '@/components/OrderDetail'
 import JwPagination from 'jw-vue-pagination';
 Vue.component('jw-pagination', JwPagination);
 
@@ -102,7 +104,17 @@ export default new Router({
       path: '/bakercreate',
       name: 'bakercreate',
       component: BakerCreate
-    } 
+    },
+    {
+      path: '/bakerorder',
+      name: 'bakerorder',
+      component: BakerOrder
+    },
+    {
+      path: '/orderdetail/:Pid',
+      name: 'orderdetail',
+      component: OrderDetail
+    }    
   ]
 })
 

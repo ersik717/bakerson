@@ -20,6 +20,7 @@ class CustomUser(AbstractUser):
 	iin = models.CharField(blank=True, max_length=30)
 	gender = models.CharField(blank=True, max_length=10)
 	birthday = models.CharField(null=True, max_length=30) 
+	nationality = models.CharField(null=True, max_length=20)
 	uploadImage = models.ImageField('Аватар', upload_to = 'project-vue/src/assets/uploads')
 
 class Customer(models.Model):
@@ -57,7 +58,7 @@ class Order(models.Model):
 	order_date = models.DateField('Дата заказа')
 	order_confirm = models.BooleanField(default=False)
 	order_detail_text = models.TextField('Текст заказа', max_length=120)
-	status = models.IntegerField(verbose_name="Статус", choices=ORDER_STATUS, default=1)
+	status = models.IntegerField(verbose_name="Статус", choices=ORDER_STATUS, default=0)
 
 class Catalog(models.Model):
 	catalog_name = models.CharField('Имя продукта', max_length=35)
@@ -79,7 +80,7 @@ class Catalog(models.Model):
 
 class Product(models.Model):
 	product_name = models.CharField('Имя', max_length=35)
-	manufacture_date = models.DateField('Дата производства')
+	manufacture_date = models.DateField(auto_now_add=True)
 	expire_date = models.IntegerField() 
 	product_type = models.CharField('Тип продукта', max_length=35)
 	customized = models.BooleanField(default=True)
@@ -113,7 +114,7 @@ class ImageModel(models.Model):
 	iin = models.CharField(blank=True, max_length=30)
 	gender = models.CharField(blank=True, max_length=10)
 	birthday = models.CharField(null=True, max_length=30) 
-
+	nationality = models.CharField(null=True, max_length=20)
 	# def __str__(self):
 	#     mrz = read_mrz(self.imageUpload.read(), save_roi=True)
 	#     mrz_data = mrz.to_dict()

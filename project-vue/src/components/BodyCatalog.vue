@@ -45,7 +45,7 @@
         <div class="col-sm-8" style="margin-left:-180px;">
           <div class="row">
           <h3 style="font-size:24px; color: #222222; font-weight:bold;">{{item.catalog_name}}</h3>
-          <h1 style="font-size:18px; color: #222222; margin-left:7px; margin-top:4px;">от {{item.baker.username}}</h1>
+          <h1 style="font-size:18px; color: #222222; margin-left:7px; margin-top:4px;"></h1>
           <img src="@/assets/Elements/star.png" style="margin-left:21px; width: 28px; height: 28px;">
           <label style="font-size:28px; color: #222222; margin-left:7px; margin-top:-5px;">{{item.catalog_rating}}</label>
           </div>
@@ -55,7 +55,7 @@
           <div class="row">
           <label style="font-size:32px; font-weight:bold; color: #222222; margin-top: 28px;">1400 тг.</label>
           <div v-for="user in users" v-if="user.username == usern" style="display: flex; justify-content: center; align-items: center;">
-            <button  @click="goTodetail(item.id); goTodetail(item.id); goID(user.id); goPN(item.catalog_name); goMD(item.catalog_date); goED(item.catalog_expiredate); goPT(item.catalog_type); goDT(item.catalog_description); goPC(item.catalog_calory); goPCost(item.catalog_price); goPF(item.catalog_form); goPS(item.catalog_stuff); goPTop(item.catalog_topping)" type="button" class="btn btn-success" style="height:48px; width:190px; margin-top:20px; margin-left:21px; border-radius: 14px; font-size: 24px; font-weight: bold;">Перейти</button>
+            <button  @click="goTodetail(item.id); goID(user.id); goPN(item.catalog_name); goMD(item.catalog_date); goED(item.expiredate); goPT(item.catalog_type); goDT(item.catalog_description); goPC(item.catalog_calory); goPCost(item.catalog_price); goPF(item.catalog_form); goPS(item.catalog_stuff); goPTop(item.catalog_topping)" type="button" class="btn btn-success" style="height:48px; width:190px; margin-top:20px; margin-left:21px; border-radius: 14px; font-size: 24px; font-weight: bold;">Перейти</button>
           </div>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default {
     },
     beforeCreate() {
         $.ajax({ 
-            url: "http://89.219.32.10/api/catalog",
+            url: "http://127.0.0.1:8000/api/catalog",
               type: "GET",
               success: (response) => {
                 this.catalog = response
@@ -94,7 +94,7 @@ export default {
 
         });
         $.ajax({ 
-            url: "http://89.219.32.10/api/users/",
+            url: "http://127.0.0.1:8000/api/users/",
               type: "GET",
               success: (response) => {
                 this.users = response

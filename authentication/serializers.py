@@ -26,7 +26,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = CustomUser
-		fields = ('email', 'username', 'password', 'first_name', 'last_name', 'iin', 'gender', 'birthday')
+		fields = ('email', 'username', 'password', 'first_name', 'last_name', 'iin', 'gender', 'birthday', 'nationality')
 		extra_kwargs = {'password':{'write_only': True}}
 
 	def create(self, validated_data):
@@ -295,14 +295,13 @@ class ImageModelSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = ImageModel
-		fields = ('imageUpload', 'name', 'surname', 'iin', 'gender', 'birthday')
+		fields = ('imageUpload', 'name', 'surname', 'iin', 'gender', 'birthday', 'nationality')
 
 	def create(self, validated_data):
 		from passporteye import read_mrz
 		img = validated_data['imageUpload']
 		mrz = read_mrz(img.read(), save_roi=True)
 		mrz_data = mrz.to_dict()
-		#print(mrz_data['names'])
-		content = ImageModel(imageUpload=img, name=mrz_data['names'], surname=mrz_data['surname'], iin=mrz_data['optional1'].replace('<',''), birthday=mrz_data['date_of_birth'], gender=mrz_data['sex'])
+		content = ImageModel(imageUpload=img, name=mrz_data['names'], surname=mrz_data['surname'], iin=mrz_data['optional1'].replace('<',''), birthday=mrz_data['date_of_birth'], gender=mrz_data['sex'], nationality=mrz_data['nationality'])
 		content.save()
 		return content

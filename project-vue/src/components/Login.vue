@@ -4,7 +4,7 @@
 <div id="Third" class="bg-2" style="display: flex; justify-content: center; align-items: center;">
 	<div id="customform" style="height: 560px; width: 500px; margin: 140px; ">
 		<div class="container-fluid text-left" style="padding: 42px;">
-			<h3 style="font-weight: bold; color:#222222; text-align: center;">Вход</h3>
+			<h3 style="font-weight: bold; color:#222222; text-align: center;">Вход как пользователь <a @click="goBakerLogin">→</a></h3>
 		</div>
 		<div class="form-group" style="color: #222222; margin-left: 21px; ">
 			<label for="addressinput" style="font-size:21px; margin-left: 28px; float: left;">Почта:</label>
@@ -21,7 +21,7 @@
 			<label style="font-size:21px; color: #222222;">или</label>
 		</div>
 		<div class="row" style="display: flex; justify-content: center; align-items: center;">
-			<button type="button" class="btn btn-warning" style="height:48px; width:240px; border-radius: 14px; font-size: 24px; font-weight: bold;">Регистрация</button>
+			<button @click="goRegistration" type="button" class="btn btn-warning" style="height:48px; width:240px; border-radius: 14px; font-size: 24px; font-weight: bold;">Регистрация</button>
 		</div>
 	</div>
 </div>
@@ -216,7 +216,7 @@ color: #FEC27F !important;
 		},
 		beforeCreate() {
 			$.ajax({ 
-	            url: "http://89.219.32.10/api/users/",
+	            url: "http://127.0.0.1:8000/api/users/",
 	              type: "GET",
 	              success: (response) => {
 	                this.users = response
@@ -224,7 +224,7 @@ color: #FEC27F !important;
 	              }
 	        });
 	        $.ajax({ 
-	            url: "http://89.219.32.10/api/bakers",
+	            url: "http://127.0.0.1:8000/api/bakers",
 	              type: "GET",
 	              success: (response) => {
 	                this.bakers = response
@@ -235,7 +235,7 @@ color: #FEC27F !important;
 		methods: {
 			setLogin() {
 				$.ajax({
-					url: "http://89.219.32.10/api/token/obtain/",
+					url: "http://127.0.0.1:8000/api/token/obtain/",
 					type: "POST",
 					data: {
 						username: this.login,
@@ -256,7 +256,14 @@ color: #FEC27F !important;
 			},	
 			trigger () {
 		        this.$refs.setLogin.click()
+		    },
+		    goRegistration(){
+		    	window.location = '/#/registration'
+		    },
+		    goBakerLogin(){
+		    	window.location = '/#/loginbaker'
 		    }
+
 		},
 
 	}

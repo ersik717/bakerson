@@ -47,12 +47,6 @@ urlpatterns = [
 	path('users/', UserListView.as_view()),
 	path('users/<int:pk>/', UserDetailView.as_view()),
 
-#	path('isUser/', isUser.as_view()),
-
-	# path('users/customers', CustomerListView.as_view()),
-	# path('users/customers/<int:pk>', CustomerDetailView.as_view()),
-	# path('users/customers/create', CustomerCreateView.as_view()),
-
 	path('bakers', BakerListView.as_view()),
     path('bakers/<int:pk>', BakerDetailView.as_view()),
 	path('bakers/create', BakerCreate.as_view()),

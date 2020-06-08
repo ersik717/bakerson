@@ -36,18 +36,7 @@
 					</div>
 					<div class="row" style="margin-top: 42px; margin-right: 56px; float:right;">
 						<!-- <button type="button" class="btn btn-success" style=" height:84px; width:230px; border-radius: 14px; font-size: 40px; font-weight: bold;">Купить</button> -->
-						<button
-      type="button"
-      class="btn"
-      @click="showModal"
-    >
-      Open Modal!
-    </button>
-
-    <modal
-      v-show="isModalVisible"
-      @close="closeModal"
-    />
+						
 					</div>
 					
 			 </div>
@@ -123,7 +112,7 @@ export default {
  		},
      	beforeCreate() {
      		$.ajax({ 
-	            url: "http://89.219.32.10/api/orders",
+	            url: "http://127.0.0.1:8000/api/orders",
 	              type: "GET",
 	              success: (response) => {
 	                this.orders = response
@@ -131,7 +120,7 @@ export default {
 	              }
 	        });
 	        $.ajax({ 
-	            url: "http://89.219.32.10/api/products/",
+	            url: "http://127.0.0.1:8000/api/products/",
 	              type: "GET",
 	              success: (response) => {
 	                this.products = response
@@ -140,7 +129,7 @@ export default {
 	              }
 	        });
 	        $.ajax({ 
-	            url: "http://89.219.32.10/api/catalog",
+	            url: "http://127.0.0.1:8000/api/catalog",
 	              type: "GET",
 	              success: (response) => {
 	                this.catalogs = response
@@ -148,7 +137,7 @@ export default {
 	              }
 	        });
 	        $.ajax({ 
-	            url: "http://89.219.32.10/api/users/",
+	            url: "http://127.0.0.1:8000/api/users/",
 	              type: "GET",
 	              success: (response) => {
 	                this.users = response
@@ -166,7 +155,7 @@ export default {
 		      },
     		loadOrder() {
     			$.ajax({ 
-	            url: "http://189.219.32.10/api/orders",
+	            url: "http://127.0.0.1:8000/api/orders",
 	              type: "GET",
 	              success: (response) => {
 	                this.orders = response
@@ -176,7 +165,7 @@ export default {
     		},
     		deleteProduct(e) {
     			$.ajax({ 
-	              url: "http://89.219.32.10/api/products/" + e,
+	              url: "http://127.0.0.1:8000/api/products/" + e,
 	              type: "DELETE",
 	              success: (response) => {
 	                // this.orders = response.results

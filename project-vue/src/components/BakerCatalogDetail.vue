@@ -78,7 +78,7 @@
      	},
      	beforeCreate() {
      		$.ajax({ 
-            url: "http://89.219.32.10/api/catalog",
+            url: "http://127.0.0.1:8000/api/catalog",
               type: "GET",
               success: (response) => {
                 this.catalogs = response
@@ -106,12 +106,17 @@
 					data.append('catalog_rating', 0.0);
 					data.append('catalog_calory', this.calory);
 
-					axios.patch('http://89.219.32.10/api/catalog/' + bcatalog_id, data, {
+					axios.patch('http://127.0.0.1:8000/api/catalog/' + this.bcatalog_id, data, {
            				headers: {
            					'Authorization': "JWT " + sessionStorage.getItem('access'),
                 			'Content-Type': 'multipart/form-data'
                 		}
-              		});
+              		})
+					.then(function (response) {
+    					console.log(response);
+    					alert('Продукт успешно изменен')
+    					window.location = '/#/bakercatalog'
+  					});
       		}
      	}
      }

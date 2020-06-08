@@ -9,7 +9,7 @@
   </button>
   <ul class="navbar-nav">
     <li class="nav-item dropdown" style="margin-left: 210px; margin-right: 70px; color:white;">
-      <a class="nav-link" @click="goProfile" style="font-weight: bold;">Профиль</a>
+      <a class="nav-link" @click="goProfile">Профиль</a>
     </li>
     <li class="nav-item dropdown" style="margin-left: 70px; margin-right: 70px; color:white;">
       <a class="nav-link" @click="goOrder" >Заказы</a>
@@ -61,7 +61,7 @@
     },
     beforeCreate() {
         $.ajax({ 
-            url: "http://89.219.32.10/api/users/",
+            url: "http://127.0.0.1:8000/api/users/",
               type: "GET",
               success: (response) => {
                 this.users = response
@@ -104,7 +104,7 @@
              sessionStorage.setItem("us_id", someID)   
         },
       goLogin() {
-         this.$router.push({name: "login"})
+         this.$router.push({name: "loginbaker"})
       },
       logout() {
          sessionStorage.removeItem('login')
@@ -115,7 +115,7 @@
          this.$router.push({name: "registration"})
       },
       goOrder() {
-         this.$router.push({name: ""})
+         this.$router.push({name: "bakerorder"})
       },
       goProfile() {
          this.$router.push({name: "bakerprofile"})
